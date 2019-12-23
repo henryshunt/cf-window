@@ -35,7 +35,3 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-// Needed as part of automatically using Themes/Generic.xaml
-[assembly: ThemeInfo(ResourceDictionaryLocation.None,
-    ResourceDictionaryLocation.SourceAssembly)]

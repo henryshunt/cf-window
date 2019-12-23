@@ -3,13 +3,14 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Shell;
 using Screen = System.Windows.Forms.Screen;
 
 namespace CFWindow
 {
-    public partial class CFWindow : Window
+    public class CFWindow : Window
     {
-        private WindowState PreviousState;
         private Size PreviousScreen;
 
         private Border WindowFrame;
@@ -17,22 +18,18 @@ namespace CFWindow
         private Image WindowIcon;
         private TextBlock WindowTitle;
         private StackPanel WindowButtons;
-        private Button WindowMinimise;
-        private Button WindowMaximise;
-        private Button WindowRestore;
-        private Button WindowClose;
-
-        static CFWindow()
-        {
-            // Needed as part of automatically using Themes/Generic.xaml
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CFWindow),
-                new FrameworkPropertyMetadata(typeof(CFWindow)));
-        }
+        private WindowButton WindowMinimise;
+        private WindowButton WindowMaximise;
+        private WindowButton WindowRestore;
+        private WindowButton WindowClose;
 
         public CFWindow()
         {
+            // Set the style so we don't have to do that in XAML
+            Style = (Style)Application.Current.Resources["CFWindow"];
             DataContext = this;
         }
+
 
         public override void OnApplyTemplate()
         {
@@ -42,37 +39,38 @@ namespace CFWindow
             WindowIcon = GetTemplateChild<Image>("WindowIcon");
             WindowTitle = GetTemplateChild<TextBlock>("WindowTitle");
             WindowButtons = GetTemplateChild<StackPanel>("WindowButtons");
-            WindowMinimise = GetTemplateChild<Button>("WindowMinimize");
-            WindowMaximise = GetTemplateChild<Button>("WindowMaximize");
-            WindowRestore = GetTemplateChild<Button>("WindowRestore");
-            WindowClose = GetTemplateChild<Button>("WindowClose");
-
-            // Apply property values
-            WindowFrame.Background = CFFrameBackground;
-            WindowFrame.BorderBrush = CFFrameBorderColour;
-            WindowContent.BorderBrush = CFContentBorderColor;
+            WindowMinimise = GetTemplateChild<WindowButton>("WindowMinimize");
+            WindowMaximise = GetTemplateChild<WindowButton>("WindowMaximize");
+            WindowRestore = GetTemplateChild<WindowButton>("WindowRestore");
+            WindowClose = GetTemplateChild<WindowButton>("WindowClose");
+            
+            ApplyWindowStateStyle();
+            ApplyWindowActiveStyle();
 
             // Hide elements based on properties
-            if (this.ResizeMode == ResizeMode.NoResize)
+            if (ResizeMode == ResizeMode.NoResize)
             {
                 WindowMinimise.Visibility = Visibility.Collapsed;
                 WindowMaximise.Visibility = Visibility.Collapsed;
                 WindowRestore.Visibility = Visibility.Collapsed;
+                WindowClose.Width = (double)Application
+                    .Current.Resources["Window.NoResize.CloseButton.Width"];
             }
-            else if (this.ResizeMode == ResizeMode.CanMinimize)
+            else if (ResizeMode == ResizeMode.CanMinimize)
             {
                 WindowMaximise.IsEnabled = false;
                 WindowRestore.IsEnabled = false;
             }
 
             // Add event handlers here as they need the visual tree
-            base.Loaded += new RoutedEventHandler(Window_Loaded);
-            base.SizeChanged += new SizeChangedEventHandler(Window_SizeChanged);
-            base.StateChanged += new EventHandler(Window_StateChanged);
+            Loaded += new RoutedEventHandler(Window_Loaded);
+            SizeChanged += new SizeChangedEventHandler(Window_SizeChanged);
+            StateChanged += new EventHandler(Window_StateChanged);
+            Activated += Window_ActiveChanged;
+            Deactivated += Window_ActiveChanged;
+
             SystemEvents.DisplaySettingsChanged
                 += new EventHandler(SystemEvents_DisplaySettingsChanged);
-            this.Activated += Window_Activated;
-            this.Deactivated += Window_Deactivated;
 
             WindowMinimise.Click += WindowMinimize_Click;
             WindowMaximise.Click += WindowMaximize_Click;
@@ -87,40 +85,31 @@ namespace CFWindow
             Screen screen = Screen.FromHandle(new WindowInteropHelper(this).Handle);
             PreviousScreen = new Size(screen.WorkingArea.Width, screen.WorkingArea.Height);
 
-            // Configure the window for its initial state
-            ApplyWindowState(this.WindowState);
+            ApplyWindowStateStyle();
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (base.WindowState == WindowState.Maximized)
-            {
-                Screen screen = Screen.FromHandle(new WindowInteropHelper(this).Handle);
+            if (WindowState != WindowState.Maximized) return;
 
-                if (PreviousScreen.Width != screen.WorkingArea.Width
-                    || PreviousScreen.Height != screen.WorkingArea.Height)
-                {
-                    PreviousScreen = new Size(screen.WorkingArea.Width, screen.WorkingArea.Height);
-                    OnStateChanged(new EventArgs());
-                }
+            Screen screen = Screen.FromHandle(new WindowInteropHelper(this).Handle);
+
+            // Window has changed screen while maximised
+            if (PreviousScreen.Width != screen.WorkingArea.Width
+                || PreviousScreen.Height != screen.WorkingArea.Height)
+            {
+                PreviousScreen = new Size(screen.WorkingArea.Width, screen.WorkingArea.Height);
+                OnStateChanged(new EventArgs());
             }
         }
         private void Window_StateChanged(object sender, EventArgs e)
         {
-            ApplyWindowState(this.WindowState);
-            PreviousState = this.WindowState;
+            ApplyWindowStateStyle();
         }
-        private void Window_Activated(object sender, EventArgs e)
+        private void Window_ActiveChanged(object sender, EventArgs e)
         {
-            WindowFrame.Background = CFFrameBackground;
-            WindowFrame.BorderBrush = CFFrameBorderColour;
-            WindowContent.BorderBrush = CFContentBorderColor;
+            ApplyWindowActiveStyle();
         }
-        private void Window_Deactivated(object sender, EventArgs e)
-        {
-            WindowFrame.Background = CFInactiveFrameBackground;
-            WindowFrame.BorderBrush = CFInactiveFrameBorderColour;
-            WindowContent.BorderBrush = CFInactiveContentBorderColor;
-        }
+
         private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
         {
             // Update size of screen that window is on and update window
@@ -131,71 +120,156 @@ namespace CFWindow
 
         private void WindowMinimize_Click(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
         private void WindowMaximize_Click(object sender, RoutedEventArgs e)
         {
-            this.ToggleWindowState();
+            ToggleWindowState();
         }
         private void WindowRestore_Click(object sender, RoutedEventArgs e)
         {
-            this.ToggleWindowState();
+            ToggleWindowState();
         }
         private void WindowClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
-        private T GetTemplateChild<T>(string childName) where T : DependencyObject
-        {
-            return (T)base.GetTemplateChild(childName);
-        }
         private void ToggleWindowState()
         {
-            if (base.WindowState != WindowState.Maximized)
-                base.WindowState = WindowState.Maximized;
-            else base.WindowState = WindowState.Normal;
+            if (WindowState == WindowState.Normal)
+                WindowState = WindowState.Maximized;
+            else if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
         }
-        private void ApplyWindowState(WindowState state)
-        {
-            if (state == WindowState.Maximized)
-            {
-                WindowFrame.BorderThickness = CFMaximisedFrameBorderThickness;
-                WindowIcon.Margin = CFMaximisedIconMargin;
-                WindowTitle.Margin = CFMaximisedTitleMargin;
-                WindowTitle.FontSize = CFMaximisedTitleFontSize;
-                WindowButtons.Margin = CFMaximisedButtonsMargin;
-                WindowButtons.Height = CFMaximisedButtonsHeight;
-                WindowContent.Margin = CFMaximisedContentMargin;
-                WindowContent.BorderThickness = CFMaximisedContentBorderThickess;
 
-                if (this.ResizeMode != ResizeMode.NoResize)
+        private void ApplyWindowStateStyle()
+        {
+            if (WindowState == WindowState.Minimized) return;
+            else if (WindowState == WindowState.Maximized)
+            {
+                // Switch to the style resources for the maximised window state
+                WindowFrame.BorderThickness = (Thickness)Application
+                    .Current.Resources["Window.Maximised.Frame.BorderThickness"];
+                WindowIcon.Margin = (Thickness)Application
+                    .Current.Resources["Window.Maximised.Icon.Margin"];
+                WindowTitle.Margin = (Thickness)Application
+                    .Current.Resources["Window.Maximised.Title.Margin"];
+                WindowTitle.FontSize = (double)Application
+                    .Current.Resources["Window.Maximised.Title.FontSize"];
+                WindowButtons.Margin = (Thickness)Application
+                    .Current.Resources["Window.Maximised.Buttons.Margin"];
+                WindowButtons.Height = (double)Application
+                    .Current.Resources["Window.Maximised.Buttons.Height"];
+                WindowContent.Margin = (Thickness)Application
+                    .Current.Resources["Window.Maximised.Content.Margin"];
+                WindowContent.BorderThickness = (Thickness)Application
+                    .Current.Resources["Window.Maximised.Content.BorderThickness"];
+
+                if (ResizeMode != ResizeMode.NoResize)
                 {
                     WindowMaximise.Visibility = Visibility.Collapsed;
                     WindowRestore.Visibility = Visibility.Visible;
                 }
 
+                // Set the WindowChrome (for system-provided resize, drag, etc.)
+                WindowChrome.SetWindowChrome(this, new WindowChrome
+                {
+                    ResizeBorderThickness = (Thickness)Application
+                        .Current.Resources["Window.Chrome.ResizeBorderThickness"],
+
+                    CaptionHeight = ((Thickness)Application.Current.Resources[
+                            "Window.Maximised.Frame.BorderThickness"]).Top +
+                        ((Thickness)Application.Current.Resources[
+                            "Window.Maximised.Content.Margin"]).Top +
+                        ((Thickness)Application.Current.Resources[
+                            "Window.Maximised.Content.BorderThickness"]).Top - 1,
+                    GlassFrameThickness = new Thickness(1)
+                });
+
                 WindowFrame.Margin = Helpers.MarginForDPI();
             }
-            else if (state == WindowState.Normal)
+            else if (WindowState == WindowState.Normal)
             {
-                WindowFrame.BorderThickness = CFRestoredFrameBorderThickness;
-                WindowIcon.Margin = CFRestoredIconMargin;
-                WindowTitle.Margin = CFRestoredTitleMargin;
-                WindowTitle.FontSize = CFRestoredTitleFontSize;
-                WindowButtons.Margin = CFRestoredButtonsMargin;
-                WindowButtons.Height = CFRestoredButtonsHeight;
-                WindowContent.Margin = CFRestoredContentMargin;
-                WindowContent.BorderThickness = CFRestoredContentBorderThickess;
+                // Switch to the style resources for the maximised window state
+                WindowFrame.BorderThickness = (Thickness)Application
+                    .Current.Resources["Window.Normal.Frame.BorderThickness"];
+                WindowIcon.Margin = (Thickness)Application
+                    .Current.Resources["Window.Normal.Icon.Margin"];
+                WindowTitle.Margin = (Thickness)Application
+                    .Current.Resources["Window.Normal.Title.Margin"];
+                WindowTitle.FontSize = (double)Application
+                    .Current.Resources["Window.Normal.Title.FontSize"];
+                WindowButtons.Margin = (Thickness)Application
+                    .Current.Resources["Window.Normal.Buttons.Margin"];
+                WindowButtons.Height = (double)Application
+                    .Current.Resources["Window.Normal.Buttons.Height"];
+                WindowContent.Margin = (Thickness)Application
+                    .Current.Resources["Window.Normal.Content.Margin"];
+                WindowContent.BorderThickness = (Thickness)Application
+                    .Current.Resources["Window.Normal.Content.BorderThickness"];
 
-                if (this.ResizeMode != ResizeMode.NoResize)
+                if (ResizeMode != ResizeMode.NoResize)
                 {
                     WindowMaximise.Visibility = Visibility.Visible;
                     WindowRestore.Visibility = Visibility.Collapsed;
                 }
 
+                // Set the WindowChrome (for system-provided resize, drag, etc.)
+                WindowChrome.SetWindowChrome(this, new WindowChrome
+                {
+                    ResizeBorderThickness = (Thickness)Application
+                        .Current.Resources["Window.Chrome.ResizeBorderThickness"],
+
+                    CaptionHeight = ((Thickness)Application.Current.Resources[
+                            "Window.Normal.Frame.BorderThickness"]).Top +
+                        ((Thickness)Application.Current.Resources[
+                            "Window.Normal.Content.Margin"]).Top +
+                        ((Thickness)Application.Current.Resources[
+                            "Window.Normal.Content.BorderThickness"]).Top - 8,
+                    GlassFrameThickness = new Thickness(1)
+                });
+
                 WindowFrame.Margin = new Thickness(0);
             }
+        }
+        private void ApplyWindowActiveStyle()
+        {
+            if (IsActive)
+            {
+                WindowFrame.Background = (SolidColorBrush)Application
+                .Current.Resources["Window.Active.Frame.Background"];
+                WindowFrame.BorderBrush = (SolidColorBrush)Application
+                    .Current.Resources["Window.Active.Frame.BorderBrush"];
+
+                WindowMinimise.ShowDisabled = false;
+                WindowMaximise.ShowDisabled = false;
+                WindowRestore.ShowDisabled = false;
+                WindowClose.ShowDisabled = false;
+
+                WindowContent.BorderBrush = (SolidColorBrush)Application
+                    .Current.Resources["Window.Active.Content.BorderBrush"];
+            }
+            else
+            {
+                WindowFrame.Background = (SolidColorBrush)Application
+                .Current.Resources["Window.Inctive.Frame.Background"];
+                WindowFrame.BorderBrush = (SolidColorBrush)Application
+                    .Current.Resources["Window.Inctive.Frame.BorderBrush"];
+
+                WindowMinimise.ShowDisabled = true;
+                WindowMaximise.ShowDisabled = true;
+                WindowRestore.ShowDisabled = true;
+                WindowClose.ShowDisabled = true;
+
+                WindowContent.BorderBrush = (SolidColorBrush)Application
+                    .Current.Resources["Window.Inactive.Content.BorderBrush"];
+            }
+        }
+
+        private T GetTemplateChild<T>(string childName) where T : DependencyObject
+        {
+            return (T)GetTemplateChild(childName);
         }
     }
 }
