@@ -138,7 +138,7 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="MinWidth" Value="180"/>
         <Setter Property="MinHeight" Value="70"/>
-        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="AllowsTransparency" Value="False"/>
         <Setter Property="WindowStyle" Value="None"/>
 
         <Setter Property="Template">
@@ -146,9 +146,9 @@
                 <ControlTemplate TargetType="{x:Type local:CFWindow}">
                     <!--<Border Padding="8">-->
                         <Border x:Name="WindowFrame">
-                            <Border.Effect>
+                            <!--<Border.Effect>
                                 <DropShadowEffect ShadowDepth="0" Color="Black" Opacity="0.75" BlurRadius="8"/>
-                            </Border.Effect>
+                            </Border.Effect>-->
 
                             <Grid>
 
