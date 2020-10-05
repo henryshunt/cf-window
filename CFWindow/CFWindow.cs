@@ -199,7 +199,7 @@ namespace CFWindow
                         ((Thickness)Application.Current.Resources["Window.Normal.Frame.BorderThickness"]).Top +
                         ((Thickness)Application.Current.Resources["Window.Normal.Content.Margin"]).Top,
 
-                    GlassFrameThickness = new Thickness(0),
+                    GlassFrameThickness = new Thickness(0, 0, 0, 1),
                     CornerRadius = new CornerRadius(0)
                 });
 

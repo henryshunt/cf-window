@@ -139,7 +139,7 @@
         <Setter Property="MinWidth" Value="180"/>
         <Setter Property="MinHeight" Value="70"/>
         <Setter Property="AllowsTransparency" Value="False"/>
-        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="WindowStyle" Value="SingleBorderWindow"/>
 
         <Setter Property="Template">
             <Setter.Value>
