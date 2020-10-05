@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shell;
 
@@ -10,9 +8,6 @@ namespace CFWindow
 {
     public partial class CFWindow : Window
     {
-        private IntPtr WindowHandle;
-        private Point MaximisePosition;
-
         private Border WindowFrame;
         private Border WindowContent;
         private Image WindowIcon;
@@ -69,37 +64,6 @@ namespace CFWindow
             WindowMaximise.Click += WindowMaximize_Click;
             WindowRestore.Click += WindowRestore_Click;
             WindowClose.Click += WindowClose_Click;
-        }
-
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            WindowHandle = new WindowInteropHelper(this).Handle;
-
-            HwndSource windowHandle = HwndSource.FromHwnd(WindowHandle);
-            if (windowHandle != null)
-                windowHandle.AddHook(new HwndSourceHook(WindowProcedure));
-        }
-        private IntPtr WindowProcedure(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
-        {
-            switch ((uint)msg)
-            {
-                // The OS maximises windows by making them slightly larger than the screen in order to hide the resize
-                // borders. This message provides the default maximise position, which if negative tells us how big the
-                // overhang is (allowing it to be negated later on)
-                case Helpers.WM_GETMINMAXINFO:
-                    {
-                        Helpers.MINMAXINFO minMaxInfo = (Helpers.MINMAXINFO)Marshal.PtrToStructure(lparam,
-                            typeof(Helpers.MINMAXINFO));
-
-                        MaximisePosition = new Point(minMaxInfo.ptMaxPosition.X, minMaxInfo.ptMaxPosition.Y);
-                        if (WindowState == WindowState.Maximized)
-                            ApplyWindowState();
-
-                        break;
-                    }
-            }
-
-            return IntPtr.Zero;
         }
 
         private void CFWindow_StateChanged(object sender, EventArgs e)
@@ -167,8 +131,7 @@ namespace CFWindow
                     CornerRadius = new CornerRadius(0)
                 });
 
-                Point corrected = Helpers.TransformToPixels(-MaximisePosition.X, -MaximisePosition.Y);
-                WindowFrame.BorderThickness = new Thickness(corrected.X, corrected.Y, corrected.X, corrected.Y);
+                WindowFrame.BorderThickness = Helpers.WindowResizeBorderThickness();
             }
             else if (WindowState == WindowState.Normal)
             {

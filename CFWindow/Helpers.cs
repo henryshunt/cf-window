@@ -1,61 +1,71 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-using Graphics = System.Drawing.Graphics;
 
 namespace CFWindow
 {
     internal static class Helpers
     {
-        internal static Point TransformToPixels(double unitX, double unitY)
+        // https://stackoverflow.com/a/61299269
+
+        public static Thickness WindowResizeBorderThickness()
         {
-            int pixelX, pixelY;
-            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
+            int d = GetSystemMetrics(SystemMetric.SM_CXPADDEDBORDER);
+
+            int x = GetSystemMetrics(SystemMetric.CXFRAME) + d;
+            double dpiX = GetDpi(DeviceCap.LOGPIXELSX);
+            double leftBorder = x / dpiX;
+
+            int y = GetSystemMetrics(SystemMetric.CYFRAME) + d;
+            double dpiY = GetDpi(DeviceCap.LOGPIXELSY);
+            double topBorder = y / dpiY;
+
+            return new Thickness(leftBorder, topBorder, leftBorder, topBorder);
+        }
+
+        private static double GetDpi(DeviceCap deviceCap)
+        {
+            IntPtr desktopWnd = IntPtr.Zero;
+            IntPtr dc = GetDC(desktopWnd);
+            double dpi;
+
+            try
             {
-                pixelX = (int)(unitX / (g.DpiX / 96));
-                pixelY = (int)(unitY / (g.DpiY / 96));
+                dpi = GetDeviceCaps(dc, deviceCap);
+            }
+            finally
+            {
+                ReleaseDC(desktopWnd, dc);
             }
 
-            // alternative:
-            // using (Graphics g = Graphics.FromHdc(IntPtr.Zero)) { }
-
-            return new Point(pixelX, pixelY);
+            return dpi / 96f;
         }
 
 
-        internal const int WM_GETMINMAXINFO = 0x0024;
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetDC(IntPtr hwnd);
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct MINMAXINFO
+        [DllImport("user32.dll")]
+        private static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+        [DllImport("gdi32.dll")]
+        private static extern int GetDeviceCaps(IntPtr hdc, DeviceCap dcIndex);
+
+        private enum DeviceCap
         {
-            public POINT ptReserved;
-            public POINT ptMaxSize;
-            public POINT ptMaxPosition;
-            public POINT ptMinTrackSize;
-            public POINT ptMaxTrackSize;
+            LOGPIXELSX = 88,
+            LOGPIXELSY = 90
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct POINT
+
+        [DllImport("user32.dll")]
+        private static extern int GetSystemMetrics(SystemMetric smIndex);
+
+        private enum SystemMetric
         {
-            public int X;
-            public int Y;
-
-            public POINT(int x, int y)
-            {
-                X = x;
-                Y = y;
-            }
-
-            public static implicit operator System.Drawing.Point(POINT p)
-            {
-                return new System.Drawing.Point(p.X, p.Y);
-            }
-
-            public static implicit operator POINT(System.Drawing.Point p)
-            {
-                return new POINT(p.X, p.Y);
-            }
+            CXFRAME = 32,
+            CYFRAME = 33,
+            SM_CXPADDEDBORDER = 92
         }
     }
 }
