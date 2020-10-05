@@ -97,59 +97,9 @@ namespace CFWindow
 
                         break;
                     }
-
-                    //// Override non-client area right click to show the system menu under the window icon
-                    //case Helpers.WM_NCRBUTTONUP:
-                    //    {
-                    //        handled = true;
-                    //        ShowSystemMenu();
-                    //        break;
-                    //    }
-
-                    //// Show the system menu when the alt+space shortcut is triggered
-                    //case Helpers.WM_KEYUP:
-                    //    {
-                    //        if ((int)wparam == Helpers.VK_MENU)
-                    //        {
-                    //            handled = true;
-                    //            ShowSystemMenu();
-                    //        }
-
-                    //        break;
-                    //    }
             }
 
             return IntPtr.Zero;
-        }
-        private void ShowSystemMenu()
-        {
-            string state = WindowState == WindowState.Normal ? "Normal" : "Maximised";
-
-            double menuXPosition = 0;
-            menuXPosition += ((Thickness)
-                Application.Current.Resources["Window." + state + ".Frame.BorderThickness"]).Left;
-            menuXPosition += ((Thickness)
-                Application.Current.Resources["Window." + state + ".Icon.Margin"]).Left;
-
-            double menuYPosition = 0;
-            menuYPosition += ((Thickness)
-                Application.Current.Resources["Window." + state + ".Frame.BorderThickness"]).Top;
-            menuYPosition += ((Thickness)
-                Application.Current.Resources["Window." + state + ".Icon.Margin"]).Top;
-            menuYPosition += WindowIcon.Height;
-
-            // Calculate position to show menu at (bottom-left corner of icon)
-            Point point = Helpers.TransformToPixels2(Left, Top);
-            IntPtr menu = Helpers.GetSystemMenu(WindowHandle, false);
-
-            // Show the menu and block until dismissed or a command is selected
-            uint command = Helpers.TrackPopupMenuEx(menu, Helpers.TPM_LEFTBUTTON | Helpers.TPM_RETURNCMD,
-                (int)point.X, (int)point.Y, WindowHandle, IntPtr.Zero);
-            if (command == 0) return;
-
-            // Trigger the command selected from the menu
-            Helpers.PostMessage(
-                new HandleRef(this, WindowHandle), Helpers.WM_SYSCOMMAND, new IntPtr(command), IntPtr.Zero);
         }
 
         private void CFWindow_StateChanged(object sender, EventArgs e)
