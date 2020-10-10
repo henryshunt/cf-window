@@ -3,21 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cfw="clr-namespace:CFWindow;assembly=CFWindow"
               
-        Title="Generic Non-PnP Monitor Properties" Icon="Icon.png" Height="511" Width="414"><!--MaxHeight="500">-->
+        Title="Generic Non-PnP Monitor Properties" Icon="Icon.png" Height="511" Width="414">
 
-    <Grid>
-        <Border BorderThickness="1" BorderBrush="Orange">
-            <Border BorderThickness="1" BorderBrush="Red">
-                <Border BorderThickness="1" BorderBrush="Black">
-                    <Border BorderThickness="1" BorderBrush="White">
-                        <Border BorderThickness="1" BorderBrush="Purple">
-                            <Border BorderThickness="1" BorderBrush="Red">
-
-                            </Border>
-                        </Border>
-                    </Border>
-                </Border>
-            </Border>
-        </Border>
-    </Grid>
+    <Grid></Grid>
 </cfw:CFWindow>

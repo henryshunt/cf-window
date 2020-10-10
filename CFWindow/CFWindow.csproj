@@ -54,7 +54,6 @@
     <Compile Include="CFWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="WindowButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="WindowTheme.xaml">

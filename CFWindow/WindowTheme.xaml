@@ -3,69 +3,62 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:CFWindow">
 
-    <!-- Global style resources -->
-    <TextAlignment   x:Key="Window.Title.TextAlignment">Center</TextAlignment>
-    <SolidColorBrush x:Key="Window.Title.Foreground" Color="Black"/>
-    <Thickness       x:Key="Window.MinimiseButton.Margin">0</Thickness>
-    <sys:Double      x:Key="Window.MinimiseButton.Width">26</sys:Double>
-    <Thickness       x:Key="Window.MaximiseButton.Margin">0</Thickness>
-    <sys:Double      x:Key="Window.MaximiseButton.Width">26</sys:Double>
-    <Thickness       x:Key="Window.CloseButton.Margin">0</Thickness>
-    <sys:Double      x:Key="Window.CloseButton.Width">50</sys:Double>
+    <TextAlignment x:Key="CFWindow.Title.TextAlignment">Center</TextAlignment>
+    <SolidColorBrush x:Key="CFWindow.Title.Foreground" Color="Black"/>
+    <sys:Double x:Key="CFWindow.StateButton.Width">30</sys:Double>
+    <sys:Double x:Key="CFWindow.CloseButton.Width">50</sys:Double>
 
-    <sys:Double      x:Key="Window.NoResize.CloseButton.Width">31</sys:Double>
+    <sys:Double x:Key="CFWindow.NoResize.CloseButton.Width">30</sys:Double>
+    <Thickness x:Key="CFWindow.Chrome.ResizeBorderThickness">7</Thickness>
 
-    <Thickness       x:Key="Window.Chrome.ResizeBorderThickness">7</Thickness>
+    <!-- Resources depending on Window.IsActive -->
+    <SolidColorBrush x:Key="CFWindow.Active.Frame.Background" Color="#FF598CBB"/>
+    <SolidColorBrush x:Key="CFWindow.Inactive.Frame.Background" Color="#FFEBEBEB"/>
+    <SolidColorBrush x:Key="CFWindow.Active.Frame.BorderBrush" Color="#FF456B8F"/>
+    <SolidColorBrush x:Key="CFWindow.Inactive.Frame.BorderBrush" Color="#FFD3D3D3"/>
+    <SolidColorBrush x:Key="CFWindow.Active.Content.BorderBrush" Color="#FF4D779F"/>
+    <SolidColorBrush x:Key="CFWindow.Inactive.Content.BorderBrush" Color="#FFDADADA"/>
 
-    <!-- Style resources depending on Window.IsActive -->
-    <SolidColorBrush x:Key="Window.Active.Frame.Background" Color="#FF598CBB"/>
-    <SolidColorBrush x:Key="Window.Inctive.Frame.Background" Color="#FFEBEBEB"/>
-    <SolidColorBrush x:Key="Window.Active.Frame.BorderBrush" Color="#FF456B8F"/>
-    <SolidColorBrush x:Key="Window.Inactive.Frame.BorderBrush" Color="#FFD3D3D3"/>
-    <SolidColorBrush x:Key="Window.Active.Content.BorderBrush" Color="#FF4D779F"/>
-    <SolidColorBrush x:Key="Window.Inactive.Content.BorderBrush" Color="#FFDADADA"/>
+    <!-- Resources depending on Window.State -->
+    <Thickness x:Key="CFWindow.Normal.Frame.BorderThickness">1</Thickness>
+    <Thickness x:Key="CFWindow.Normal.Icon.Margin" Left="6" Top="6" Right="0" Bottom="0"/>
+    <Thickness x:Key="CFWindow.Normal.Title.Margin" Left="10" Top="3" Right="10" Bottom="0"/>
+    <sys:Double x:Key="CFWindow.Normal.Title.FontSize">15</sys:Double>
+    <Thickness x:Key="CFWindow.Normal.Buttons.Margin" Left="0" Top="0" Right="6" Bottom="0"/>
+    <sys:Double x:Key="CFWindow.Normal.Buttons.Height">22</sys:Double>
+    <Thickness x:Key="CFWindow.Normal.Content.Margin" Left="6" Top="28" Right="6" Bottom="6"/>
+    <Thickness x:Key="CFWindow.Normal.Content.BorderThickness">1</Thickness>
 
-    <!-- Style resources depending on Window.State -->
-    <Thickness       x:Key="Window.Normal.Frame.BorderThickness">1</Thickness>
-    <Thickness       x:Key="Window.Normal.Icon.Margin" Left="6" Top="6" Right="0" Bottom="0"/>
-    <Thickness       x:Key="Window.Normal.Title.Margin" Left="10" Top="3" Right="10" Bottom="0"/>
-    <sys:Double      x:Key="Window.Normal.Title.FontSize">15</sys:Double>
-    <Thickness       x:Key="Window.Normal.Buttons.Margin" Left="0" Top="0" Right="6" Bottom="0"/>
-    <sys:Double      x:Key="Window.Normal.Buttons.Height">22</sys:Double>
-    <Thickness       x:Key="Window.Normal.Content.Margin" Left="6" Top="28" Right="6" Bottom="6"/>
-    <Thickness       x:Key="Window.Normal.Content.BorderThickness">1</Thickness>
+    <Thickness x:Key="CFWindow.Maximised.Frame.BorderThickness">0</Thickness>
+    <Thickness x:Key="CFWindow.Maximised.Icon.Margin" Left="4" Top="4" Right="0" Bottom="0"/>
+    <Thickness x:Key="CFWindow.Maximised.Title.Margin" Left="10" Top="2" Right="10" Bottom="0"/>
+    <sys:Double x:Key="CFWindow.Maximised.Title.FontSize">14</sys:Double>
+    <Thickness x:Key="CFWindow.Maximised.Buttons.Margin" Left="0" Top="0" Right="4" Bottom="0"/>
+    <sys:Double x:Key="CFWindow.Maximised.Buttons.Height">20</sys:Double>
+    <Thickness x:Key="CFWindow.Maximised.Content.Margin" Left="0" Top="24" Right="0" Bottom="0"/>
+    <Thickness x:Key="CFWindow.Maximised.Content.BorderThickness" Left="0" Top="1" Right="0" Bottom="0"/>
 
-    <Thickness       x:Key="Window.Maximised.Frame.BorderThickness">0</Thickness>
-    <Thickness       x:Key="Window.Maximised.Icon.Margin" Left="4" Top="4" Right="0" Bottom="0"/>
-    <Thickness       x:Key="Window.Maximised.Title.Margin" Left="10" Top="2" Right="10" Bottom="0"/>
-    <sys:Double      x:Key="Window.Maximised.Title.FontSize">14</sys:Double>
-    <Thickness       x:Key="Window.Maximised.Buttons.Margin" Left="0" Top="0" Right="4" Bottom="0"/>
-    <sys:Double      x:Key="Window.Maximised.Buttons.Height">20</sys:Double>
-    <Thickness       x:Key="Window.Maximised.Content.Margin" Left="0" Top="24" Right="0" Bottom="0"/>
-    <Thickness       x:Key="Window.Maximised.Content.BorderThickness" Left="0" Top="1" Right="0" Bottom="0"/>
+    <!-- Resources for window buttons -->
+    <SolidColorBrush x:Key="CFWindow.StateButton.Static.Background" Color="Transparent"/>
+    <SolidColorBrush x:Key="CFWindow.StateButton.Static.Foreground" Color="#FF282828"/>
+    <SolidColorBrush x:Key="CFWindow.StateButton.MouseOver.Background" Color="#FF3665B3"/>
+    <SolidColorBrush x:Key="CFWindow.StateButton.MouseOver.Foreground" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="CFWindow.StateButton.MouseDown.Background" Color="#FF3D6099"/>
+    <SolidColorBrush x:Key="CFWindow.StateButton.MouseDown.Foreground" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="CFWindow.StateButton.Disabled.Background" Color="Transparent"/>
+    <SolidColorBrush x:Key="CFWindow.StateButton.Disabled.Foreground" Color="#7F282828"/>
 
-    <!-- Style resources for window button states -->
-    <SolidColorBrush x:Key="StateButton.Static.Background" Color="Transparent"/>
-    <SolidColorBrush x:Key="StateButton.Static.Foreground" Color="#FF282828"/>
-    <SolidColorBrush x:Key="StateButton.Disabled.Foreground" Color="#FF415A71"/>
-    <SolidColorBrush x:Key="StateButton.MouseOver.Background" Color="#FF3665B3"/>
-    <SolidColorBrush x:Key="StateButton.MouseOver.Foreground" Color="#FFFFFFFF"/>
-    <SolidColorBrush x:Key="StateButton.MouseDown.Background" Color="#FF3D6099"/>
-    <SolidColorBrush x:Key="StateButton.MouseDown.Foreground" Color="#FFFFFFFF"/>
-    <SolidColorBrush x:Key="StateButton.Disabled.Background" Color="Transparent"/>
-
-    <SolidColorBrush x:Key="CloseButton.Static.Background" Color="#FFC75050"/>
-    <SolidColorBrush x:Key="CloseButton.Static.Foreground" Color="#FFFFFFFF"/>
-    <SolidColorBrush x:Key="CloseButton.MouseOver.Background" Color="#FFE04343"/>
-    <SolidColorBrush x:Key="CloseButton.MouseOver.Foreground" Color="#FFFFFFFF"/>
-    <SolidColorBrush x:Key="CloseButton.MouseDown.Background" Color="#FF993D3D"/>
-    <SolidColorBrush x:Key="CloseButton.MouseDown.Foreground" Color="#FFFFFFFF"/>
-    <SolidColorBrush x:Key="CloseButton.Disabled.Background" Color="#FFBCBCBC"/>
+    <SolidColorBrush x:Key="CFWindow.CloseButton.Static.Background" Color="#FFC75050"/>
+    <SolidColorBrush x:Key="CFWindow.CloseButton.Static.Foreground" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="CFWindow.CloseButton.MouseOver.Background" Color="#FFE04343"/>
+    <SolidColorBrush x:Key="CFWindow.CloseButton.MouseOver.Foreground" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="CFWindow.CloseButton.MouseDown.Background" Color="#FF993D3D"/>
+    <SolidColorBrush x:Key="CFWindow.CloseButton.MouseDown.Foreground" Color="#FFFFFFFF"/>
 
 
-    <Style TargetType="{x:Type local:WindowButton}" x:Key="WindowButtonStyle">
-        <Setter Property="Background" Value="{StaticResource StateButton.Static.Background}"/>
-        <Setter Property="Foreground" Value="{StaticResource StateButton.Static.Foreground}"/>
+    <Style TargetType="{x:Type Button}" x:Key="CFWindowStateButtonStyle">
+        <Setter Property="Background" Value="{StaticResource CFWindow.StateButton.Static.Background}"/>
+        <Setter Property="Foreground" Value="{StaticResource CFWindow.StateButton.Static.Foreground}"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
 
@@ -81,25 +74,23 @@
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource StateButton.MouseOver.Background}"/>
-                <Setter Property="Foreground" Value="{StaticResource StateButton.MouseOver.Foreground}"/>
+                <Setter Property="Background" Value="{StaticResource CFWindow.StateButton.MouseOver.Background}"/>
+                <Setter Property="Foreground" Value="{StaticResource CFWindow.StateButton.MouseOver.Foreground}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{StaticResource StateButton.MouseDown.Background}"/>
-                <Setter Property="Foreground" Value="{StaticResource StateButton.MouseDown.Foreground}"/>
+                <Setter Property="Background" Value="{StaticResource CFWindow.StateButton.MouseDown.Background}"/>
+                <Setter Property="Foreground" Value="{StaticResource CFWindow.StateButton.MouseDown.Foreground}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{StaticResource StateButton.Disabled.Background}"/>
-            </Trigger>
-            <Trigger Property="ShowDisabled" Value="True">
-                <Setter Property="Background" Value="{StaticResource StateButton.Disabled.Background}"/>
+                <Setter Property="Background" Value="{StaticResource CFWindow.StateButton.Disabled.Background}"/>
+                <Setter Property="Foreground" Value="{StaticResource CFWindow.StateButton.Disabled.Foreground}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type local:WindowButton}" x:Key="WindowCloseButtonStyle">
-        <Setter Property="Background" Value="{StaticResource CloseButton.Static.Background}"/>
-        <Setter Property="Foreground" Value="{StaticResource CloseButton.Static.Foreground}"/>
+    <Style TargetType="{x:Type Button}" x:Key="CFWindowCloseButtonStyle">
+        <Setter Property="Background" Value="{StaticResource CFWindow.CloseButton.Static.Background}"/>
+        <Setter Property="Foreground" Value="{StaticResource CFWindow.CloseButton.Static.Foreground}"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
 
@@ -115,74 +106,103 @@
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource CloseButton.MouseOver.Background}"/>
-                <Setter Property="Foreground" Value="{StaticResource CloseButton.MouseOver.Foreground}"/>
+                <Setter Property="Background" Value="{StaticResource CFWindow.CloseButton.MouseOver.Background}"/>
+                <Setter Property="Foreground" Value="{StaticResource CFWindow.CloseButton.MouseOver.Foreground}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{StaticResource CloseButton.MouseDown.Background}"/>
-                <Setter Property="Foreground" Value="{StaticResource CloseButton.MouseDown.Foreground}"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{StaticResource CloseButton.Disabled.Background}"/>
-            </Trigger>
-            <Trigger Property="ShowDisabled" Value="True">
-                <Setter Property="Background" Value="{StaticResource CloseButton.Disabled.Background}"/>
+                <Setter Property="Background" Value="{StaticResource CFWindow.CloseButton.MouseDown.Background}"/>
+                <Setter Property="Foreground" Value="{StaticResource CFWindow.CloseButton.MouseDown.Foreground}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
 
-    <Style TargetType="local:CFWindow" x:Key="CFWindow">
-        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
-        <Setter Property="Title" Value="{Binding Title}"/>
-        <Setter Property="Background" Value="White"/>
+    <Style TargetType="{x:Type local:CFWindow}" x:Key="CFWindow">
         <Setter Property="MinWidth" Value="180"/>
         <Setter Property="MinHeight" Value="70"/>
-        <Setter Property="AllowsTransparency" Value="False"/>
-        <Setter Property="WindowStyle" Value="SingleBorderWindow"/>
+
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome GlassFrameThickness="1" CornerRadius="0"/>
+            </Setter.Value>
+        </Setter>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CFWindow}">
-                    <!--<Border Padding="8">-->
-                        <Border x:Name="WindowFrame">
-                            <!--<Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="Black" Opacity="0.75" BlurRadius="8"/>
-                            </Border.Effect>-->
+                    <Border x:Name="WindowFrame">
+                        <Grid>
+                            <DockPanel VerticalAlignment="Top" LastChildFill="True">
+                                <Image x:Name="WindowIcon" DockPanel.Dock="Left" Source="{TemplateBinding Icon}" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                            <Grid>
+                                <StackPanel x:Name="WindowButtons" DockPanel.Dock="Right" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal">
+                                    <Button x:Name="WindowMinimize" Style="{StaticResource CFWindowStateButtonStyle}" Width="{StaticResource CFWindow.StateButton.Width}" Padding="0,8,0,0">
+                                        <Path Stroke="{Binding ElementName=WindowMinimize, Path=Foreground}" Data="M0.5,0.5L9.5,0.5"/>
+                                    </Button>
+                                    <Button x:Name="WindowMaximize" Style="{StaticResource CFWindowStateButtonStyle}" Width="{StaticResource CFWindow.StateButton.Width}">
+                                        <Path x:Name="WindowMaximizePath" Stroke="{Binding ElementName=WindowMaximize, Path=Foreground}" Data="M0.5,0.5L9.5,0.5 9.5,9.5 0.5,9.5z"/>
+                                    </Button>
+                                    <Button x:Name="WindowClose" Style="{StaticResource CFWindowCloseButtonStyle}" Width="{StaticResource CFWindow.CloseButton.Width}">
+                                        <Path Stroke="{Binding ElementName=WindowClose, Path=Foreground}" Data="M9.5,0.5L0.5,9.5 M9.5,9.5L0.5,0.5"/>
+                                    </Button>
+                                </StackPanel>
 
-                                <!-- Window Titlebar -->
-                                <DockPanel VerticalAlignment="Top" LastChildFill="True">
-                                    <Image x:Name="WindowIcon" DockPanel.Dock="Left" Source="{TemplateBinding Icon}" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="WindowTitle" Text="{TemplateBinding Title}" Foreground="{StaticResource CFWindow.Title.Foreground}" TextAlignment="{StaticResource CFWindow.Title.TextAlignment}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top"/>
+                            </DockPanel>
 
-                                    <StackPanel x:Name="WindowButtons" DockPanel.Dock="Right" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal">
-                                        <local:WindowButton x:Name="WindowMinimize" Style="{StaticResource WindowButtonStyle}" Margin="{StaticResource Window.MinimiseButton.Margin}" Width="{StaticResource Window.MinimiseButton.Width}" Padding="0,8,0,0">
-                                            <Path Stroke="{Binding ElementName=WindowMinimize, Path=Foreground}" Data="M0.5,0.5L9.5,0.5"/>
-                                        </local:WindowButton>
-                                        <local:WindowButton x:Name="WindowMaximize" Style="{StaticResource WindowButtonStyle}" Margin="{StaticResource Window.MaximiseButton.Margin}" Width="{StaticResource Window.MaximiseButton.Width}">
-                                            <Path Stroke="{Binding ElementName=WindowMaximize, Path=Foreground}" Data="M0.5,0.5L9.5,0.5 9.5,9.5 0.5,9.5z"/>
-                                        </local:WindowButton>
-                                        <local:WindowButton x:Name="WindowRestore" Style="{StaticResource WindowButtonStyle}" Margin="{StaticResource Window.MaximiseButton.Margin}" Width="{StaticResource Window.MaximiseButton.Width}" Visibility="Collapsed">
-                                            <Path Stroke="{Binding ElementName=WindowRestore, Path=Foreground}"
-                                              Data="M7.5,7.5L7.5,7.5 7.5,9.5 0.5,9.5 0.5,2.5 2.5,2.5 M2.5,0.5L9.5,0.5 9.5,7.5 7.5,7.5 7.5,2.5 2.5,2.5 2.5,2.5z"/>
-                                        </local:WindowButton>
-                                        <local:WindowButton x:Name="WindowClose" Style="{StaticResource WindowCloseButtonStyle}" Margin="{StaticResource Window.CloseButton.Margin}" Width="{StaticResource Window.CloseButton.Width}">
-                                            <Path Stroke="{Binding ElementName=WindowClose, Path=Foreground}" Data="M10,0L0,10 M10,10L0,0"/>
-                                        </local:WindowButton>
-                                    </StackPanel>
+                            <Border x:Name="WindowContent" Panel.ZIndex="10" BorderThickness="1" Background="{TemplateBinding Background}">
+                                <ContentPresenter/>
+                            </Border>
+                        </Grid>
+                    </Border>
 
-                                    <TextBlock x:Name="WindowTitle" Text="{TemplateBinding Title}" Foreground="{StaticResource Window.Title.Foreground}" TextAlignment="{StaticResource Window.Title.TextAlignment}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" Panel.ZIndex="0" FontSize="{Binding CFTitleFontSize}"/>
-                                </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="WindowMaximizePath" Property="Data"
+                                    Value="M7.5,7.5L7.5,7.5 7.5,9.5 0.5,9.5 0.5,2.5 2.5,2.5 M2.5,0.5L9.5,0.5 9.5,7.5 7.5,7.5 7.5,2.5 2.5,2.5 2.5,2.5z"/>
+                        </Trigger>
 
-                                <!-- Window Content -->
-                                <Border x:Name="WindowContent" Panel.ZIndex="10" BorderThickness="1" Background="{TemplateBinding Background}">
-                                    <ContentPresenter/>
-                                </Border>
+                        <Trigger Property="IsActive" Value="True">
+                            <Setter TargetName="WindowFrame" Property="Background" Value="{StaticResource CFWindow.Active.Frame.Background}"/>
+                            <Setter TargetName="WindowFrame" Property="BorderBrush" Value="{StaticResource CFWindow.Active.Frame.BorderBrush}"/>
+                            <Setter TargetName="WindowContent" Property="BorderBrush" Value="{StaticResource CFWindow.Active.Content.BorderBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsActive" Value="False">
+                            <Setter TargetName="WindowFrame" Property="Background" Value="{StaticResource CFWindow.Inactive.Frame.Background}"/>
+                            <Setter TargetName="WindowFrame" Property="BorderBrush" Value="{StaticResource CFWindow.Inactive.Frame.BorderBrush}"/>
+                            <Setter TargetName="WindowContent" Property="BorderBrush" Value="{StaticResource CFWindow.Inactive.Content.BorderBrush}"/>
+                        </Trigger>
 
-                            </Grid>
-                        </Border>
-                    <!--</Border>-->
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="WindowFrame" Property="BorderThickness" Value="{StaticResource CFWindow.Normal.Frame.BorderThickness}"/>
+                            <Setter TargetName="WindowIcon" Property="Margin" Value="{StaticResource CFWindow.Normal.Icon.Margin}"/>
+                            <Setter TargetName="WindowTitle" Property="Margin" Value="{StaticResource CFWindow.Normal.Title.Margin}"/>
+                            <Setter TargetName="WindowTitle" Property="FontSize" Value="{StaticResource CFWindow.Normal.Title.FontSize}"/>
+                            <Setter TargetName="WindowButtons" Property="Margin" Value="{StaticResource CFWindow.Normal.Buttons.Margin}"/>
+                            <Setter TargetName="WindowButtons" Property="Height" Value="{StaticResource CFWindow.Normal.Buttons.Height}"/>
+                            <Setter TargetName="WindowContent" Property="Margin" Value="{StaticResource CFWindow.Normal.Content.Margin}"/>
+                            <Setter TargetName="WindowContent" Property="BorderThickness" Value="{StaticResource CFWindow.Normal.Content.BorderThickness}"/>
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="WindowFrame" Property="BorderThickness" Value="{StaticResource CFWindow.Maximised.Frame.BorderThickness}"/>
+                            <Setter TargetName="WindowIcon" Property="Margin" Value="{StaticResource CFWindow.Maximised.Icon.Margin}"/>
+                            <Setter TargetName="WindowTitle" Property="Margin" Value="{StaticResource CFWindow.Maximised.Title.Margin}"/>
+                            <Setter TargetName="WindowTitle" Property="FontSize" Value="{StaticResource CFWindow.Maximised.Title.FontSize}"/>
+                            <Setter TargetName="WindowButtons" Property="Margin" Value="{StaticResource CFWindow.Maximised.Buttons.Margin}"/>
+                            <Setter TargetName="WindowButtons" Property="Height" Value="{StaticResource CFWindow.Maximised.Buttons.Height}"/>
+                            <Setter TargetName="WindowContent" Property="Margin" Value="{StaticResource CFWindow.Maximised.Content.Margin}"/>
+                            <Setter TargetName="WindowContent" Property="BorderThickness" Value="{StaticResource CFWindow.Maximised.Content.BorderThickness}"/>
+                        </Trigger>
+
+                        <Trigger Property="ResizeMode" Value="NoResize">
+                            <Setter TargetName="WindowMinimize" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="WindowMaximize" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="WindowClose" Property="Width" Value="{StaticResource CFWindow.NoResize.CloseButton.Width}"/>
+                        </Trigger>
+                        <Trigger Property="ResizeMode" Value="CanMinimize">
+                            <Setter TargetName="WindowMaximize" Property="IsEnabled" Value="False"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
