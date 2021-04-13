@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace CFWindow
 {
-    internal static class Helpers
+    public static class Utilities
     {
         // https://stackoverflow.com/a/61299269
 

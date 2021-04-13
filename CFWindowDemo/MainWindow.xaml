@@ -1,9 +1,0 @@
-﻿<cfw:CFWindow x:Class="CFWindowDemo.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:cfw="clr-namespace:CFWindow;assembly=CFWindow"
-              
-        Title="Generic Non-PnP Monitor Properties" Icon="Icon.png" Height="511" Width="414">
-
-    <Grid></Grid>
-</cfw:CFWindow>
