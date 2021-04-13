@@ -8,7 +8,7 @@ namespace CFWindow
     {
         // https://stackoverflow.com/a/61299269
 
-        public static Thickness MaximisedWindowOffset()
+        public static Thickness MaximiseOffset()
         {
             int d = GetSystemMetrics(SystemMetric.SM_CXPADDEDBORDER);
 

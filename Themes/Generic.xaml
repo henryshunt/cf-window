@@ -137,11 +137,11 @@
                                 <Image x:Name="PART_Icon" DockPanel.Dock="Left" Source="{TemplateBinding Icon}" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                                 <StackPanel x:Name="PART_Buttons" DockPanel.Dock="Right" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal">
-                                    <Button x:Name="PART_Minimize" Style="{StaticResource CFWindowStateButtonStyle}" Width="{StaticResource CFWindow.StateButton.Width}" Padding="0,8,0,0">
-                                        <Path Stroke="{Binding ElementName=PART_Minimize, Path=Foreground}" Data="M0.5,0.5L9.5,0.5"/>
+                                    <Button x:Name="PART_Minimise" Style="{StaticResource CFWindowStateButtonStyle}" Width="{StaticResource CFWindow.StateButton.Width}" Padding="0,8,0,0">
+                                        <Path Stroke="{Binding ElementName=PART_Minimise, Path=Foreground}" Data="M0.5,0.5L9.5,0.5"/>
                                     </Button>
-                                    <Button x:Name="PART_Maximize" Style="{StaticResource CFWindowStateButtonStyle}" Width="{StaticResource CFWindow.StateButton.Width}">
-                                        <Path x:Name="PART_MaximizePath" Stroke="{Binding ElementName=PART_Maximize, Path=Foreground}" Data="M0.5,0.5L9.5,0.5 9.5,9.5 0.5,9.5z"/>
+                                    <Button x:Name="PART_Maximise" Style="{StaticResource CFWindowStateButtonStyle}" Width="{StaticResource CFWindow.StateButton.Width}">
+                                        <Path x:Name="PART_MaximisePath" Stroke="{Binding ElementName=PART_Maximise, Path=Foreground}" Data="M0.5,0.5L9.5,0.5 9.5,9.5 0.5,9.5z"/>
                                     </Button>
                                     <Button x:Name="PART_Close" Style="{StaticResource CFWindowCloseButtonStyle}" Width="{StaticResource CFWindow.CloseButton.Width}">
                                         <Path Stroke="{Binding ElementName=PART_Close, Path=Foreground}" Data="M9.5,0.5L0.5,9.5 M9.5,9.5L0.5,0.5"/>
@@ -159,7 +159,7 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">
-                            <Setter TargetName="PART_MaximizePath" Property="Data"
+                            <Setter TargetName="PART_MaximisePath" Property="Data"
                                     Value="M7.5,7.5L7.5,7.5 7.5,9.5 0.5,9.5 0.5,2.5 2.5,2.5 M2.5,0.5L9.5,0.5 9.5,7.5 7.5,7.5 7.5,2.5 2.5,2.5 2.5,2.5z"/>
                         </Trigger>
 
@@ -197,12 +197,12 @@
                         </Trigger>
 
                         <Trigger Property="ResizeMode" Value="NoResize">
-                            <Setter TargetName="PART_Minimize" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="PART_Maximize" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="PART_Minimise" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="PART_Maximise" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="PART_Close" Property="Width" Value="{StaticResource CFWindow.NoResize.CloseButton.Width}"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="CanMinimize">
-                            <Setter TargetName="PART_Maximize" Property="IsEnabled" Value="False"/>
+                            <Setter TargetName="PART_Maximise" Property="IsEnabled" Value="False"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -16,9 +16,9 @@ namespace CFWindow
         public override void OnApplyTemplate()
         {
             StateChanged += CFWindow_StateChanged;
-            ((Button)GetTemplateChild("PART_Minimize")).Click += WindowMinimize_Click;
-            ((Button)GetTemplateChild("PART_Maximize")).Click += WindowMaximize_Click;
-            ((Button)GetTemplateChild("PART_Close")).Click += WindowClose_Click;
+            ((Button)GetTemplateChild("PART_Minimise")).Click += PART_Minimise_Click;
+            ((Button)GetTemplateChild("PART_Maximise")).Click += PART_Maximise_Click;
+            ((Button)GetTemplateChild("PART_Close")).Click += PART_Close_Click;
 
             RenderWindowState();
         }
@@ -28,18 +28,18 @@ namespace CFWindow
             RenderWindowState();
         }
 
-        private void WindowMinimize_Click(object sender, RoutedEventArgs e)
+        private void PART_Minimise_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
         }
-        private void WindowMaximize_Click(object sender, RoutedEventArgs e)
+        private void PART_Maximise_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState == WindowState.Normal)
                 WindowState = WindowState.Maximized;
             else if (WindowState == WindowState.Maximized)
                 WindowState = WindowState.Normal;
         }
-        private void WindowClose_Click(object sender, RoutedEventArgs e)
+        private void PART_Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
@@ -54,8 +54,8 @@ namespace CFWindow
             {
                 // The OS maximises windows by making them slightly larger than the screen in order to
                 // hide the border. This overenlargement is negated here in order to create a clean slate
-                // where (0,0) in the outermost element of the window is always at (0,0) on the screen.
-                frame.Margin = Utilities.MaximisedWindowOffset();
+                // where (0,0) on the window is placed at (0,0) on the screen when maximised.
+                frame.Margin = Utilities.MaximiseOffset();
 
                 chrome.ResizeBorderThickness = new Thickness(0);
                 chrome.CaptionHeight = frame.BorderThickness.Top + content.Margin.Top +
