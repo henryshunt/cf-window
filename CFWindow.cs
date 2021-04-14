@@ -55,7 +55,7 @@ namespace CFWindow
                 // The OS maximises windows by making them slightly larger than the screen in order to
                 // hide the border. This overenlargement is negated here in order to create a clean slate
                 // where (0,0) on the window is placed at (0,0) on the screen when maximised.
-                frame.Margin = Utilities.MaximiseOffset();
+                frame.Margin = GetMaximiseCorrection();
 
                 chrome.ResizeBorderThickness = new Thickness(0);
                 chrome.CaptionHeight = frame.BorderThickness.Top + content.Margin.Top +
@@ -77,6 +77,34 @@ namespace CFWindow
                 chrome.ResizeBorderThickness = resizeBorder;
                 chrome.CaptionHeight = frame.BorderThickness.Top + content.Margin.Top +
                     content.BorderThickness.Top - 8;
+            }
+        }
+
+        /// <summary>
+        /// Returns a value that corrects for the overenlargement, by the OS, of a window past the
+        /// edges of the screen when it is maximised.
+        /// </summary>
+        private static Thickness GetMaximiseCorrection()
+        {
+            int z = Utilities.GetSystemMetrics(Utilities.SystemMetric.BorderPadding);
+
+            IntPtr context = Utilities.GetDeviceContext(IntPtr.Zero);
+
+            try
+            {
+                double dpiX = Utilities.GetDeviceCapability(
+                    context, Utilities.DeviceCapability.LogicalPixelsX) / 96f;
+                double vert = (Utilities.GetSystemMetrics(Utilities.SystemMetric.FrameX) + z) / dpiX;
+
+                double dpiY = Utilities.GetDeviceCapability(
+                    context, Utilities.DeviceCapability.LogicalPixelsX) / 96f;
+                double horiz = (Utilities.GetSystemMetrics(Utilities.SystemMetric.FrameY) + z) / dpiY;
+
+                return new Thickness(vert, horiz, vert, horiz);
+            }
+            finally
+            {
+                Utilities.ReleaseDeviceContext(IntPtr.Zero, context);
             }
         }
     }
