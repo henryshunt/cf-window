@@ -45,7 +45,6 @@
         </Style.Triggers>
     </Style>
 
-
     <SolidColorBrush x:Key="CFWindow.CloseButton.Static.Background" Color="#FFC75050"/>
     <SolidColorBrush x:Key="CFWindow.CloseButton.Static.Foreground" Color="#FFFFFFFF"/>
     <SolidColorBrush x:Key="CFWindow.CloseButton.MouseOver.Background" Color="#FFE04343"/>
@@ -53,21 +52,9 @@
     <SolidColorBrush x:Key="CFWindow.CloseButton.MouseDown.Background" Color="#FF993D3D"/>
     <SolidColorBrush x:Key="CFWindow.CloseButton.MouseDown.Foreground" Color="#FFFFFFFF"/>
 
-    <Style TargetType="{x:Type Button}" x:Key="CFWindowCloseButtonStyle">
+    <Style TargetType="{x:Type Button}" x:Key="CFWindowCloseButtonStyle" BasedOn="{StaticResource CFWindowStateButtonStyle}">
         <Setter Property="Background" Value="{StaticResource CFWindow.CloseButton.Static.Background}"/>
         <Setter Property="Foreground" Value="{StaticResource CFWindow.CloseButton.Static.Foreground}"/>
-        <Setter Property="HorizontalAlignment" Value="Right"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ButtonBase}">
-                    <Border x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" Margin="0" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
@@ -81,14 +68,6 @@
         </Style.Triggers>
     </Style>
 
-
-    <TextAlignment x:Key="CFWindow.Title.TextAlignment">Center</TextAlignment>
-    <SolidColorBrush x:Key="CFWindow.Title.Foreground" Color="Black"/>
-    <sys:Double x:Key="CFWindow.StateButton.Width">30</sys:Double>
-    <sys:Double x:Key="CFWindow.CloseButton.Width">50</sys:Double>
-    <sys:Double x:Key="CFWindow.NoResize.CloseButton.Width">30</sys:Double>
-
-    <!-- Resources depending on Window.IsActive -->
     <SolidColorBrush x:Key="CFWindow.Active.Frame.Background" Color="#FF598CBB"/>
     <SolidColorBrush x:Key="CFWindow.Inactive.Frame.Background" Color="#FFEBEBEB"/>
     <SolidColorBrush x:Key="CFWindow.Active.Frame.BorderBrush" Color="#FF456B8F"/>
@@ -96,28 +75,8 @@
     <SolidColorBrush x:Key="CFWindow.Active.Content.BorderBrush" Color="#FF4D779F"/>
     <SolidColorBrush x:Key="CFWindow.Inactive.Content.BorderBrush" Color="#FFDADADA"/>
 
-    <!-- Resources depending on Window.State -->
-    <Thickness x:Key="CFWindow.Normal.Frame.BorderThickness">1</Thickness>
-    <Thickness x:Key="CFWindow.Maximised.Frame.BorderThickness">0</Thickness>
-    <Thickness x:Key="CFWindow.Normal.Icon.Margin" Left="6" Top="6" Right="0" Bottom="0"/>
-    <Thickness x:Key="CFWindow.Maximised.Icon.Margin" Left="4" Top="4" Right="0" Bottom="0"/>
-    <Thickness x:Key="CFWindow.Normal.Title.Margin" Left="10" Top="3" Right="10" Bottom="0"/>
-    <Thickness x:Key="CFWindow.Maximised.Title.Margin" Left="10" Top="2" Right="10" Bottom="0"/>
-    <sys:Double x:Key="CFWindow.Normal.Title.FontSize">15</sys:Double>
-    <sys:Double x:Key="CFWindow.Maximised.Title.FontSize">14</sys:Double>
-    <Thickness x:Key="CFWindow.Normal.Buttons.Margin" Left="0" Top="0" Right="6" Bottom="0"/>
-    <Thickness x:Key="CFWindow.Maximised.Buttons.Margin" Left="0" Top="0" Right="4" Bottom="0"/>
-    <sys:Double x:Key="CFWindow.Normal.Buttons.Height">22</sys:Double>
-    <sys:Double x:Key="CFWindow.Maximised.Buttons.Height">20</sys:Double>
-    <Thickness x:Key="CFWindow.Normal.Content.Margin" Left="6" Top="28" Right="6" Bottom="6"/>
-    <Thickness x:Key="CFWindow.Maximised.Content.Margin" Left="0" Top="24" Right="0" Bottom="0"/>
-    <Thickness x:Key="CFWindow.Normal.Content.BorderThickness">1</Thickness>
-    <Thickness x:Key="CFWindow.Maximised.Content.BorderThickness" Left="0" Top="1" Right="0" Bottom="0"/>
-
     <Style TargetType="{x:Type local:CFWindow}">
         <Setter Property="Background" Value="White"/>
-        <Setter Property="MinWidth" Value="180"/>
-        <Setter Property="MinHeight" Value="70"/>
 
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
@@ -131,27 +90,27 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CFWindow}">
-                    <Border x:Name="PART_Frame">
+                    <Border x:Name="PART_Frame" BorderThickness="1">
                         <Grid>
                             <DockPanel VerticalAlignment="Top" LastChildFill="True">
                                 <Image x:Name="PART_Icon" DockPanel.Dock="Left" Source="{TemplateBinding Icon}" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                                <StackPanel x:Name="PART_Buttons" DockPanel.Dock="Right" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal">
-                                    <Button x:Name="PART_Minimise" Style="{StaticResource CFWindowStateButtonStyle}" Width="{StaticResource CFWindow.StateButton.Width}" Padding="0,8,0,0">
+                                <StackPanel x:Name="PART_Buttons" DockPanel.Dock="Right" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" Margin="0,0,6,0" Height="22">
+                                    <Button x:Name="PART_Minimise" Style="{StaticResource CFWindowStateButtonStyle}" Width="30" Padding="0,8,0,0">
                                         <Path Stroke="{Binding ElementName=PART_Minimise, Path=Foreground}" Data="M0.5,0.5L9.5,0.5"/>
                                     </Button>
-                                    <Button x:Name="PART_Maximise" Style="{StaticResource CFWindowStateButtonStyle}" Width="{StaticResource CFWindow.StateButton.Width}">
+                                    <Button x:Name="PART_Maximise" Style="{StaticResource CFWindowStateButtonStyle}" Width="30">
                                         <Path x:Name="PART_MaximisePath" Stroke="{Binding ElementName=PART_Maximise, Path=Foreground}" Data="M0.5,0.5L9.5,0.5 9.5,9.5 0.5,9.5z"/>
                                     </Button>
-                                    <Button x:Name="PART_Close" Style="{StaticResource CFWindowCloseButtonStyle}" Width="{StaticResource CFWindow.CloseButton.Width}">
+                                    <Button x:Name="PART_Close" Style="{StaticResource CFWindowCloseButtonStyle}" Width="50">
                                         <Path Stroke="{Binding ElementName=PART_Close, Path=Foreground}" Data="M9.5,0.5L0.5,9.5 M9.5,9.5L0.5,0.5"/>
                                     </Button>
                                 </StackPanel>
 
-                                <TextBlock x:Name="PART_Title" Text="{TemplateBinding Title}" Foreground="{StaticResource CFWindow.Title.Foreground}" TextAlignment="{StaticResource CFWindow.Title.TextAlignment}" TextTrimming="CharacterEllipsis" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="PART_Title" Text="{TemplateBinding Title}" Foreground="Black" TextAlignment="Center" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" Margin="10,3,10,0" FontSize="15"/>
                             </DockPanel>
 
-                            <Border x:Name="PART_Content" Panel.ZIndex="10" BorderThickness="1" Background="{TemplateBinding Background}">
+                            <Border x:Name="PART_Content" Panel.ZIndex="10" BorderThickness="1" Background="{TemplateBinding Background}" Margin="6,28,6,6">
                                 <ContentPresenter/>
                             </Border>
                         </Grid>
@@ -174,32 +133,21 @@
                             <Setter TargetName="PART_Content" Property="BorderBrush" Value="{StaticResource CFWindow.Inactive.Content.BorderBrush}"/>
                         </Trigger>
 
-                        <Trigger Property="WindowState" Value="Normal">
-                            <Setter TargetName="PART_Frame" Property="BorderThickness" Value="{StaticResource CFWindow.Normal.Frame.BorderThickness}"/>
-                            <Setter TargetName="PART_Icon" Property="Margin" Value="{StaticResource CFWindow.Normal.Icon.Margin}"/>
-                            <Setter TargetName="PART_Title" Property="Margin" Value="{StaticResource CFWindow.Normal.Title.Margin}"/>
-                            <Setter TargetName="PART_Title" Property="FontSize" Value="{StaticResource CFWindow.Normal.Title.FontSize}"/>
-                            <Setter TargetName="PART_Buttons" Property="Margin" Value="{StaticResource CFWindow.Normal.Buttons.Margin}"/>
-                            <Setter TargetName="PART_Buttons" Property="Height" Value="{StaticResource CFWindow.Normal.Buttons.Height}"/>
-                            <Setter TargetName="PART_Content" Property="Margin" Value="{StaticResource CFWindow.Normal.Content.Margin}"/>
-                            <Setter TargetName="PART_Content" Property="BorderThickness" Value="{StaticResource CFWindow.Normal.Content.BorderThickness}"/>
-                        </Trigger>
-
                         <Trigger Property="WindowState" Value="Maximized">
-                            <Setter TargetName="PART_Frame" Property="BorderThickness" Value="{StaticResource CFWindow.Maximised.Frame.BorderThickness}"/>
-                            <Setter TargetName="PART_Icon" Property="Margin" Value="{StaticResource CFWindow.Maximised.Icon.Margin}"/>
-                            <Setter TargetName="PART_Title" Property="Margin" Value="{StaticResource CFWindow.Maximised.Title.Margin}"/>
-                            <Setter TargetName="PART_Title" Property="FontSize" Value="{StaticResource CFWindow.Maximised.Title.FontSize}"/>
-                            <Setter TargetName="PART_Buttons" Property="Margin" Value="{StaticResource CFWindow.Maximised.Buttons.Margin}"/>
-                            <Setter TargetName="PART_Buttons" Property="Height" Value="{StaticResource CFWindow.Maximised.Buttons.Height}"/>
-                            <Setter TargetName="PART_Content" Property="Margin" Value="{StaticResource CFWindow.Maximised.Content.Margin}"/>
-                            <Setter TargetName="PART_Content" Property="BorderThickness" Value="{StaticResource CFWindow.Maximised.Content.BorderThickness}"/>
+                            <Setter TargetName="PART_Frame" Property="BorderThickness" Value="0"/>
+                            <Setter TargetName="PART_Icon" Property="Margin" Value="4,4,0,0"/>
+                            <Setter TargetName="PART_Title" Property="Margin" Value="10,2,10,0"/>
+                            <Setter TargetName="PART_Title" Property="FontSize" Value="14"/>
+                            <Setter TargetName="PART_Buttons" Property="Margin" Value="0,0,4,0"/>
+                            <Setter TargetName="PART_Buttons" Property="Height" Value="20"/>
+                            <Setter TargetName="PART_Content" Property="Margin" Value="0,24,0,0"/>
+                            <Setter TargetName="PART_Content" Property="BorderThickness" Value="0,1,0,0"/>
                         </Trigger>
 
                         <Trigger Property="ResizeMode" Value="NoResize">
                             <Setter TargetName="PART_Minimise" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="PART_Maximise" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="PART_Close" Property="Width" Value="{StaticResource CFWindow.NoResize.CloseButton.Width}"/>
+                            <Setter TargetName="PART_Close" Property="Width" Value="30"/>
                         </Trigger>
                         <Trigger Property="ResizeMode" Value="CanMinimize">
                             <Setter TargetName="PART_Maximise" Property="IsEnabled" Value="False"/>

@@ -5,6 +5,9 @@ using System.Windows.Shell;
 
 namespace CFWindow
 {
+    /// <summary>
+    /// Represents a WPF <see cref="Window"/> with a custom frame style.
+    /// </summary>
     public class CFWindow : Window
     {
         static CFWindow()
@@ -13,6 +16,14 @@ namespace CFWindow
                 typeof(CFWindow), new FrameworkPropertyMetadata(typeof(CFWindow)));
         }
 
+        /// <summary>
+        /// Initialises a new instance of the <see cref="CFWindow"/> class.
+        /// </summary>
+        public CFWindow() { }
+
+        /// <summary>
+        /// Attaches various event handlers to the window.
+        /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -24,22 +35,24 @@ namespace CFWindow
             ((Button)GetTemplateChild("PART_Maximise")).Click += PART_Maximise_Click;
             ((Button)GetTemplateChild("PART_Close")).Click += PART_Close_Click;
 
-            RenderWindowState();
+            SetStateDependentProps();
         }
 
         private void CFWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            RenderWindowState();
+            SetStateDependentProps();
         }
+
         private void CFWindow_StateChanged(object sender, EventArgs e)
         {
-            RenderWindowState();
+            SetStateDependentProps();
         }
 
         private void PART_Minimise_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
         }
+
         private void PART_Maximise_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState == WindowState.Normal)
@@ -47,12 +60,16 @@ namespace CFWindow
             else if (WindowState == WindowState.Maximized)
                 WindowState = WindowState.Normal;
         }
+
         private void PART_Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void RenderWindowState()
+        /// <summary>
+        /// Sets various properties of the window that depend on its current state.
+        /// </summary>
+        private void SetStateDependentProps()
         {
             Border frame = (Border)GetTemplateChild("PART_Frame");
             Border content = (Border)GetTemplateChild("PART_Content");
@@ -61,8 +78,7 @@ namespace CFWindow
             if (WindowState == WindowState.Maximized)
             {
                 // The OS maximises windows by making them slightly larger than the screen in order to
-                // hide the border. This overenlargement is negated here in order to create a clean slate
-                // where (0,0) on the window is placed at (0,0) on the screen when maximised.
+                // hide the border. This overenlargement needs to be negated
                 frame.Margin = GetMaximiseCorrection();
 
                 chrome.ResizeBorderThickness = new Thickness(0);
@@ -79,6 +95,7 @@ namespace CFWindow
                     frame.BorderThickness.Right + content.Margin.Right + content.BorderThickness.Right,
                     frame.BorderThickness.Bottom + content.Margin.Bottom + content.BorderThickness.Bottom);
 
+                // The top also contains the draggable area so the resize border must be limited in size
                 if (resizeBorder.Top > 8)
                     resizeBorder.Top = 8;
 
@@ -89,8 +106,8 @@ namespace CFWindow
         }
 
         /// <summary>
-        /// Returns a value that corrects for the overenlargement, by the OS, of a window past the
-        /// edges of the screen when it is maximised.
+        /// Returns a value that corrects for the overenlargement, by the OS, of a
+        /// window past the edges of the screen when it is maximised.
         /// </summary>
         private static Thickness GetMaximiseCorrection()
         {
