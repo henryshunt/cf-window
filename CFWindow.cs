@@ -15,7 +15,11 @@ namespace CFWindow
 
         public override void OnApplyTemplate()
         {
+            base.OnApplyTemplate();
+
+            Loaded += CFWindow_Loaded;
             StateChanged += CFWindow_StateChanged;
+
             ((Button)GetTemplateChild("PART_Minimise")).Click += PART_Minimise_Click;
             ((Button)GetTemplateChild("PART_Maximise")).Click += PART_Maximise_Click;
             ((Button)GetTemplateChild("PART_Close")).Click += PART_Close_Click;
@@ -23,6 +27,10 @@ namespace CFWindow
             RenderWindowState();
         }
 
+        private void CFWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            RenderWindowState();
+        }
         private void CFWindow_StateChanged(object sender, EventArgs e)
         {
             RenderWindowState();
