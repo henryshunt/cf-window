@@ -18,11 +18,12 @@
         <Setter Property="Foreground" Value="{StaticResource CFWindow.StateButton.Static.Foreground}"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="BorderThickness" Value="0"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ButtonBase}">
-                    <Border x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" Margin="0" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                    <Border x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" Margin="0" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" BorderThickness="{TemplateBinding BorderThickness}">
                         <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                 </ControlTemplate>
