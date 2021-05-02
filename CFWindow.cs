@@ -95,8 +95,10 @@ namespace CFWindow
                     frame.BorderThickness.Right + content.Margin.Right + content.BorderThickness.Right,
                     frame.BorderThickness.Bottom + content.Margin.Bottom + content.BorderThickness.Bottom);
 
+                if (ResizeMode == ResizeMode.NoResize)
+                    resizeBorder.Top = 0;
                 // The top also contains the draggable area so the resize border must be limited in size
-                if (resizeBorder.Top > 8)
+                else if (resizeBorder.Top > 8)
                     resizeBorder.Top = 8;
 
                 chrome.ResizeBorderThickness = resizeBorder;
