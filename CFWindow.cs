@@ -83,7 +83,7 @@ namespace CFWindow
 
                 chrome.ResizeBorderThickness = new Thickness(0);
                 chrome.CaptionHeight = frame.BorderThickness.Top + content.Margin.Top +
-                    content.BorderThickness.Top + 8;
+                    content.BorderThickness.Top + frame.Margin.Top;
             }
             else if (WindowState == WindowState.Normal)
             {
@@ -101,7 +101,7 @@ namespace CFWindow
 
                 chrome.ResizeBorderThickness = resizeBorder;
                 chrome.CaptionHeight = frame.BorderThickness.Top + content.Margin.Top +
-                    content.BorderThickness.Top - 8;
+                    content.BorderThickness.Top - resizeBorder.Top;
             }
         }
 
