@@ -95,8 +95,11 @@ namespace CFWindow
                     frame.BorderThickness.Right + content.Margin.Right + content.BorderThickness.Right,
                     frame.BorderThickness.Bottom + content.Margin.Bottom + content.BorderThickness.Bottom);
 
-                if (ResizeMode == ResizeMode.NoResize)
+                if (ResizeMode == ResizeMode.CanMinimize || ResizeMode == ResizeMode.NoResize ||
+                    WindowStyle == WindowStyle.ToolWindow)
+                {
                     resizeBorder.Top = 0;
+                }
                 // The top also contains the draggable area so the resize border must be limited in size
                 else if (resizeBorder.Top > 8)
                     resizeBorder.Top = 8;

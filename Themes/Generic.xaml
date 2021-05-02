@@ -93,7 +93,7 @@
                 <ControlTemplate TargetType="{x:Type local:CFWindow}">
                     <Border x:Name="PART_Frame" BorderThickness="1" Background="{StaticResource CFWindow.Active.Frame.Background}" BorderBrush="{StaticResource CFWindow.Active.Frame.BorderBrush}">
                         <Grid>
-                            <DockPanel VerticalAlignment="Top" LastChildFill="True">
+                            <DockPanel x:Name="PART_TitleBar" VerticalAlignment="Top" LastChildFill="True">
                                 <Image x:Name="PART_Icon" DockPanel.Dock="Left" Source="{TemplateBinding Icon}" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                                 <StackPanel x:Name="PART_Buttons" DockPanel.Dock="Right" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" Margin="0,0,6,0" Height="22">
@@ -118,12 +118,6 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsActive" Value="False">
-                            <Setter TargetName="PART_Frame" Property="Background" Value="{StaticResource CFWindow.Inactive.Frame.Background}"/>
-                            <Setter TargetName="PART_Frame" Property="BorderBrush" Value="{StaticResource CFWindow.Inactive.Frame.BorderBrush}"/>
-                            <Setter TargetName="PART_Content" Property="BorderBrush" Value="{StaticResource CFWindow.Inactive.Content.BorderBrush}"/>
-                        </Trigger>
-
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="PART_Frame" Property="BorderThickness" Value="0"/>
                             <Setter TargetName="PART_Icon" Property="Margin" Value="4,4,0,0"/>
@@ -136,15 +130,75 @@
                             <Setter TargetName="PART_Content" Property="BorderThickness" Value="0,1,0,0"/>
                         </Trigger>
 
+                        <Trigger Property="IsActive" Value="False">
+                            <Setter TargetName="PART_Frame" Property="Background" Value="{StaticResource CFWindow.Inactive.Frame.Background}"/>
+                            <Setter TargetName="PART_Frame" Property="BorderBrush" Value="{StaticResource CFWindow.Inactive.Frame.BorderBrush}"/>
+                            <Setter TargetName="PART_Content" Property="BorderBrush" Value="{StaticResource CFWindow.Inactive.Content.BorderBrush}"/>
+                        </Trigger>
+
                         <Trigger Property="ResizeMode" Value="NoResize">
                             <Setter TargetName="PART_Minimise" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="PART_Maximise" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="PART_Close" Property="Width" Value="30"/>
                         </Trigger>
 
+                        <Trigger Property="WindowStyle" Value="ToolWindow">
+                            <Setter TargetName="PART_Minimise" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="PART_Maximise" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="PART_Close" Property="Width" Value="22"/>
+                        </Trigger>
+
                         <Trigger Property="ResizeMode" Value="CanMinimize">
                             <Setter TargetName="PART_Maximise" Property="IsEnabled" Value="False"/>
                         </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="WindowStyle" Value="None"/>
+                                <Condition Property="ResizeMode" Value="CanResize"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_TitleBar" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="PART_Content" Property="Margin" Value="6"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="WindowStyle" Value="None"/>
+                                <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_TitleBar" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="PART_Content" Property="Margin" Value="6"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="WindowStyle" Value="None"/>
+                                <Condition Property="ResizeMode" Value="NoResize"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_Frame" Property="BorderThickness" Value="0"/>
+                                <Setter TargetName="PART_TitleBar" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="PART_Content" Property="Margin" Value="0"/>
+                                <Setter TargetName="PART_Content" Property="BorderThickness" Value="0"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="WindowStyle" Value="None"/>
+                                <Condition Property="ResizeMode" Value="CanMinimize"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="PART_Frame" Property="BorderThickness" Value="0"/>
+                                <Setter TargetName="PART_TitleBar" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="PART_Content" Property="Margin" Value="0"/>
+                                <Setter TargetName="PART_Content" Property="BorderThickness" Value="0"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
