@@ -91,7 +91,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CFWindow}">
-                    <Border x:Name="PART_Frame" BorderThickness="1">
+                    <Border x:Name="PART_Frame" BorderThickness="1" Background="{StaticResource CFWindow.Active.Frame.Background}" BorderBrush="{StaticResource CFWindow.Active.Frame.BorderBrush}">
                         <Grid>
                             <DockPanel VerticalAlignment="Top" LastChildFill="True">
                                 <Image x:Name="PART_Icon" DockPanel.Dock="Left" Source="{TemplateBinding Icon}" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -111,23 +111,13 @@
                                 <TextBlock x:Name="PART_Title" Text="{TemplateBinding Title}" Foreground="Black" TextAlignment="Center" TextTrimming="CharacterEllipsis" VerticalAlignment="Top" Margin="10,3,10,0" FontSize="15"/>
                             </DockPanel>
 
-                            <Border x:Name="PART_Content" Panel.ZIndex="10" BorderThickness="1" Background="{TemplateBinding Background}" Margin="6,28,6,6">
+                            <Border x:Name="PART_Content" Panel.ZIndex="10" BorderThickness="1" Background="{TemplateBinding Background}" Margin="6,28,6,6" BorderBrush="{StaticResource CFWindow.Active.Content.BorderBrush}">
                                 <ContentPresenter/>
                             </Border>
                         </Grid>
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="WindowState" Value="Maximized">
-                            <Setter TargetName="PART_MaximisePath" Property="Data"
-                                    Value="M7.5,7.5L7.5,7.5 7.5,9.5 0.5,9.5 0.5,2.5 2.5,2.5 M2.5,0.5L9.5,0.5 9.5,7.5 7.5,7.5 7.5,2.5 2.5,2.5 2.5,2.5z"/>
-                        </Trigger>
-
-                        <Trigger Property="IsActive" Value="True">
-                            <Setter TargetName="PART_Frame" Property="Background" Value="{StaticResource CFWindow.Active.Frame.Background}"/>
-                            <Setter TargetName="PART_Frame" Property="BorderBrush" Value="{StaticResource CFWindow.Active.Frame.BorderBrush}"/>
-                            <Setter TargetName="PART_Content" Property="BorderBrush" Value="{StaticResource CFWindow.Active.Content.BorderBrush}"/>
-                        </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <Setter TargetName="PART_Frame" Property="Background" Value="{StaticResource CFWindow.Inactive.Frame.Background}"/>
                             <Setter TargetName="PART_Frame" Property="BorderBrush" Value="{StaticResource CFWindow.Inactive.Frame.BorderBrush}"/>
@@ -141,6 +131,7 @@
                             <Setter TargetName="PART_Title" Property="FontSize" Value="14"/>
                             <Setter TargetName="PART_Buttons" Property="Margin" Value="0,0,4,0"/>
                             <Setter TargetName="PART_Buttons" Property="Height" Value="20"/>
+                            <Setter TargetName="PART_MaximisePath" Property="Data" Value="M7.5,7.5L7.5,7.5 7.5,9.5 0.5,9.5 0.5,2.5 2.5,2.5 M2.5,0.5L9.5,0.5 9.5,7.5 7.5,7.5 7.5,2.5 2.5,2.5 2.5,2.5z"/>
                             <Setter TargetName="PART_Content" Property="Margin" Value="0,24,0,0"/>
                             <Setter TargetName="PART_Content" Property="BorderThickness" Value="0,1,0,0"/>
                         </Trigger>
@@ -150,6 +141,7 @@
                             <Setter TargetName="PART_Maximise" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="PART_Close" Property="Width" Value="30"/>
                         </Trigger>
+
                         <Trigger Property="ResizeMode" Value="CanMinimize">
                             <Setter TargetName="PART_Maximise" Property="IsEnabled" Value="False"/>
                         </Trigger>
