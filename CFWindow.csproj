@@ -6,7 +6,7 @@
     <Authors>Henry Hunt</Authors>
     <Copyright>Copyright © Henry Hunt 2021</Copyright>
     <Product>Custom-Frame Window</Product>
-    <Description>A fully-featured custom WPF window with a design based on that of Windows 8</Description>
+    <Description>A custom WPF window with a design based on that of Windows 8</Description>
   </PropertyGroup>
 
 </Project>
