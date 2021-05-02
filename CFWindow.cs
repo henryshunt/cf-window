@@ -78,7 +78,7 @@ namespace CFWindow
             if (WindowState == WindowState.Maximized)
             {
                 // The OS maximises windows by making them slightly larger than the screen in order to
-                // hide the border. This overenlargement needs to be negated
+                // hide the border. This overhang needs to be negated
                 frame.Margin = GetMaximiseCorrection();
 
                 chrome.ResizeBorderThickness = new Thickness(0);
@@ -106,30 +106,35 @@ namespace CFWindow
         }
 
         /// <summary>
-        /// Returns a value that corrects for the overenlargement, by the OS, of a
-        /// window past the edges of the screen when it is maximised.
+        /// Returns a value that corrects for the overhang, by the OS, of a window past the edges of the screen when
+        /// it is maximised.
         /// </summary>
         private static Thickness GetMaximiseCorrection()
         {
-            int z = Utilities.GetSystemMetrics(Utilities.SystemMetric.BorderPadding);
+            int padding = NativeMethods.GetSystemMetrics(
+                NativeMethods.SystemMetric.SM_CXPADDEDBORDER);
 
-            IntPtr context = Utilities.GetDeviceContext(IntPtr.Zero);
+            IntPtr context = NativeMethods.GetDeviceContext(IntPtr.Zero);
 
             try
             {
-                double dpiX = Utilities.GetDeviceCapability(
-                    context, Utilities.DeviceCapability.LogicalPixelsX) / 96f;
-                double vert = (Utilities.GetSystemMetrics(Utilities.SystemMetric.FrameX) + z) / dpiX;
+                double dpiX = NativeMethods.GetDeviceCaps(
+                    context, NativeMethods.DeviceCap.LOGPIXELSX) / 96f;
 
-                double dpiY = Utilities.GetDeviceCapability(
-                    context, Utilities.DeviceCapability.LogicalPixelsX) / 96f;
-                double horiz = (Utilities.GetSystemMetrics(Utilities.SystemMetric.FrameY) + z) / dpiY;
+                double vertical = (NativeMethods.GetSystemMetrics(
+                    NativeMethods.SystemMetric.SM_CXFRAME) + padding) / dpiX;
 
-                return new Thickness(vert, horiz, vert, horiz);
+                double dpiY = NativeMethods.GetDeviceCaps(
+                    context, NativeMethods.DeviceCap.LOGPIXELSX) / 96f;
+
+                double horizontal = (NativeMethods.GetSystemMetrics(
+                    NativeMethods.SystemMetric.SM_CYFRAME) + padding) / dpiY;
+
+                return new Thickness(vertical, horizontal, vertical, horizontal);
             }
             finally
             {
-                Utilities.ReleaseDeviceContext(IntPtr.Zero, context);
+                NativeMethods.ReleaseDeviceContext(IntPtr.Zero, context);
             }
         }
     }
