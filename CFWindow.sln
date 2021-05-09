@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CFWindow", "CFWindow.csproj", "{827881F3-1B20-4BC9-AC60-70E50B1FF00C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CFWindowDemo", "..\CFWindowDemo\CFWindowDemo.csproj", "{8BED5832-FAF2-4AFB-84E3-5171DC4B4152}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{827881F3-1B20-4BC9-AC60-70E50B1FF00C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{827881F3-1B20-4BC9-AC60-70E50B1FF00C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{827881F3-1B20-4BC9-AC60-70E50B1FF00C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8BED5832-FAF2-4AFB-84E3-5171DC4B4152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BED5832-FAF2-4AFB-84E3-5171DC4B4152}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8BED5832-FAF2-4AFB-84E3-5171DC4B4152}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8BED5832-FAF2-4AFB-84E3-5171DC4B4152}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
